@@ -21,21 +21,22 @@ function Bacteria(newTeamNum, newProlLv, newAggrLv, newVariLv, newLongLv) {
 	this.variate = function() {
 		/* "variate" means "tu bian" in Chinese. */
 		/* This function is variating algorithm for an individual. Individuals in competitor lists should variate befor being planted. */
-		function generate(level) {
-			result = (Math.random() - 0.5)*2 * level/15;
-			if (result >= 100) {
+		function newLevel(level) {
+			function randValue() { return (Math.random()-0.5)*2; }
+			var deltaValue = Math.round( randValue() * level/15 + randValue() );
+			var result = level + deltaValue;
+			if (result > 100) {
 				return 100;
-			} else if (result <= 0) {
+			} else if (result < 0) {
 				return 0;
 			} else {
 				return result;
 			}
 		}
-		this.proliferativeLv += generate(this.proliferativeLv);
-		this.aggressiveLv += generate(this.aggressiveLv);
-		this.longevityLv += generate(this.longevityLv);
-		this.variativeLv += generate(this.variativeLv); // variativeLv should be the last thing to change.
-
+		this.proliferativeLv = newLevel(this.proliferativeLv);
+		this.aggressiveLv = newLevel(this.aggressiveLv);
+		this.longevityLv = newLevel(this.longevityLv);
+		this.variativeLv = newLevel(this.variativeLv); // variativeLv should be the last thing to change.
 	}
 
 }
