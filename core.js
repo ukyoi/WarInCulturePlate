@@ -60,6 +60,12 @@ function PlateLattice() {
 		this.bact = null;
 		this.lifeRemaining = null;
 	}
+	
+	this.variate = function() {
+		for (var i in competitor) {
+			competitor[i].variate();
+		}
+	}
 
 	this.isEmpty = function() {
 		/* The function's effect should be the same as ThePlate::isEmpty(x, y). */
@@ -162,10 +168,7 @@ function ThePlate() {
 		/* Only individuals in competitor lists should variate */
 		for (rn in this.latticeArray) {
 			for (cn in this.latticeArray[rn]) {
-				comptitorList = latticeArray[ln][cn].comptitor;
-				for (i in comptitorList) {
-					comptitorList[i].variate();
-				}
+				latticeArray[ln][cn].variate();
 			}
 		}
 	}
