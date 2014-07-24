@@ -1,5 +1,10 @@
-/* The world shouldn't be too large. */
-var PLATE_HEIGHT = 16;
+
+/* The world shouldn't be too large because of the performance. Maybe 64 is a nice value.*/
+/*
+var PLATE_HEIGHT = 64;
+var PLATE_WIDTH = 64;
+ */
+var PLATE_HEIGHT = 16; // 16 is just for testing.
 var PLATE_WIDTH = 16;
 
 
