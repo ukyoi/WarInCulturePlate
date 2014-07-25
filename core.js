@@ -1,11 +1,9 @@
 
 /* The world shouldn't be too large because of the performance. Maybe 64 is a nice value.*/
-/*
 var PLATE_HEIGHT = 64;
 var PLATE_WIDTH = 64;
- */
-var PLATE_HEIGHT = 16; // 16 is just for testing.
-var PLATE_WIDTH = 16;
+//var PLATE_HEIGHT = 16; // 16 is just for testing.
+//var PLATE_WIDTH = 16;
 
 
 function Bacteria(newTeamNum, newProlLv, newAggrLv, newVariLv, newLongLv) {
@@ -153,8 +151,8 @@ function ThePlate() {
 	}
 
 	this.aging = function() {
-		for (rn in this.latticeArray) {
-			for (cn in this.latticeArray[rn]) {
+		for (var rn in this.latticeArray) {
+			for (var cn in this.latticeArray[rn]) {
 				this.latticeArray[rn][cn].lifeRemaining-=1;
 				if (this.latticeArray[rn][cn].lifeRemaining <= 0) {
 					this.latticeArray[rn][cn].eliminate();
@@ -166,8 +164,8 @@ function ThePlate() {
 	this.variate = function() {
 		/* "variate" means "tu bian" in Chinese. */
 		/* Only individuals in competitor lists should variate */
-		for (rn in this.latticeArray) {
-			for (cn in this.latticeArray[rn]) {
+		for (var rn in this.latticeArray) {
+			for (var cn in this.latticeArray[rn]) {
 				latticeArray[ln][cn].variate();
 			}
 		}
@@ -179,10 +177,12 @@ function ThePlate() {
 		/* Note: "reproduce" means "fan zhi" in Chinese. */
 		/* This function is the step of repruduction. */
 
-		for (rn in this.latticeArray) {
-			for (cn in this.latticeArray[rn]) {
-				ancient = this.latticeArray[]
+		for (var rn in this.latticeArray) {
+			for (var cn in this.latticeArray[rn]) {
+				ancient = this.latticeArray[rn][cn];
 				// TODO:
+			}
+		}
 	}
 
 	this.nextRound = function() {
@@ -194,39 +194,7 @@ function ThePlate() {
 }
 
 
-function showPlate(plate) {
-	var width = PLATE_WIDTH;
-	var height = PLATE_HEIGHT;
-	var toOutput = '';
-	for (var i=0; i<height; ++i) {
-		for (var j=0; j<width; ++j) {
-			if (plate.latticeArray[i][j].isEmpty()) {
-				toOutput += "+ ";
-			} else {
-				toOutput += plate.latticeArray[i][j].bact.teamNum;
-				toOutput += " ";
-			}
-		}
-		toOutput += "\n";
-	}
+//thePlate = new ThePlate();
 
-	console.log(toOutput);
-}
-
-
-thePlate = new ThePlate();
-
-
-// For Testing:
-/*
-thePlate.addNewPlayer(10,20,30,40, 2, 1);
-thePlate.addNewPlayer(20,30,40,10, 10, 5);
-thePlate.addNewPlayer(30,40,10,20, 15, 15);
-thePlate.addNewPlayer(40,10,20,30, 6, 13);
-
-thePlate.aging();
-showPlate(thePlate);
-console.log(thePlate.teamList);
-console.log(thePlate.teamList);
-*/
+/* Code for test (unit test) should be placed at test.js and be invoked from testing.html. */
 
