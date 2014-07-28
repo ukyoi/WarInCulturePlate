@@ -65,6 +65,12 @@ function PlateLattice() {
 			competitor[i].variate();
 		}
 	}
+	this.aging = function() {
+		this.bact.lifeRemaining -= 1;
+		if (this.bact.lifeRemaining <= 0) {
+			this.eliminate();
+		}
+	}
 
 	this.isEmpty = function() {
 		/* The function's effect should be the same as ThePlate::isEmpty(x, y). */
@@ -110,8 +116,9 @@ function ThePlate() {
 		var x = -1;
 		var y = -1;
 		if (posX==undefined || posY==undefined) {
-			/* Warning: Please make sure there are enough empty positions for birthing. */
-			/* This method should be reconsidered in the future. */
+			/* Warning: Please make sure there are *enough* empty positions for birthing. */
+
+			/* Plant randomly. This method should be reconsidered in the future. */
 			for (var i=0;i<15;++i) {
 				tmpX = Math.floor(Math.random()*PLATE_HEIGHT);
 				tmpY = Math.floor(Math.random()*PLATE_WIDTH);
@@ -151,45 +158,30 @@ function ThePlate() {
 		return this.birth(bactToAdd, rowPos, colPos);
 	}
 
-	this.aging = function() {
-		for (var rn in this.latticeArray) {
-			for (var cn in this.latticeArray[rn]) {
-				this.latticeArray[rn][cn].lifeRemaining-=1;
-				if (this.latticeArray[rn][cn].lifeRemaining <= 0) {
-					this.latticeArray[rn][cn].eliminate();
-				}
-			}
-		}
-	}
-
-	this.variate = function() {
-		/* "variate" means "tu bian" in Chinese. */
-		/* Only individuals in competitor lists should variate */
-		for (var rn in this.latticeArray) {
-			for (var cn in this.latticeArray[rn]) {
-				latticeArray[ln][cn].variate();
-			}
-		}
-	}
-
-
 
 	this.reproduce = function() {
 		/* Note: "reproduce" means "fan zhi" in Chinese. */
 		/* This function is the step of repruduction. */
 
-		for (var rn in this.latticeArray) {
-			for (var cn in this.latticeArray[rn]) {
-				ancient = this.latticeArray[rn][cn];
+		for (var i in this.latticeArray) {
+			for (var j in this.latticeArray[i]) {
+				ancient = this.latticeArray[i][j];
 				// TODO:
 			}
 		}
 	}
 
 	this.nextRound = function() {
-		/* nextRound is a combination of all function that must be loaded.
+		/* nextRound is a combination of all function that must be loaded in a round.
 		 */
 		//TODO:
+		/*
+		for (var i in latticeArray) {
+			for (var j in latticeArray[i]) {
+				latticeArray[i][j].aging();
+			}
+		}
+		*/
 		return;
 	}
 }
