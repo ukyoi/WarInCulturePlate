@@ -104,8 +104,8 @@ function ThePlate() {
 	this.getHeight = function() { return PLATE_HEIGHT; }
 
 	this.lattice = function(row, col) {
-		if (row>=this.getHeight() || col>=this.getWidth()) {
-			return null;
+		if (row>=this.getHeight() || col>=this.getWidth() || row<=0 || col <=0) {
+			return undefined;
 		} else {
 			return this.latticeArray[row][col];
 		}
