@@ -2,8 +2,9 @@
 /* The world shouldn't be too large because of the performance. Maybe 64 is a nice value.*/
 var PLATE_HEIGHT = 64;
 var PLATE_WIDTH = 64;
-//var PLATE_HEIGHT = 16; // 16 is just for testing.
-//var PLATE_WIDTH = 16;
+
+var LIFE_FACTOR = 1/5;
+var VARIATE_FACTOR = 1/15;
 
 
 function Bacteria(newTeamNum, newProlLv, newAggrLv, newVariLv, newLongLv) {
@@ -21,7 +22,7 @@ function Bacteria(newTeamNum, newProlLv, newAggrLv, newVariLv, newLongLv) {
 		/* This function is variating algorithm for an individual. Individuals in competitor lists should variate befor being planted. */
 		function newLevel(level) {
 			function randValue() { return (Math.random()-0.5)*2; }
-			var deltaValue = Math.round( randValue() * level/15 + randValue() );
+			var deltaValue = Math.round( randValue() * level*VARIATE_FACTOR + randValue() );
 			var result = level + deltaValue;
 			if (result > 100) {
 				return 100;
@@ -50,7 +51,7 @@ function PlateLattice() {
 	this.planting = function(bact) {
 		this.bact = bact;
 		//this.lifeRemaining = Math.round(bact.longevityLv/10);
-		this.lifeRemaining = Math.round(bact.longevityLv/5);
+		this.lifeRemaining = Math.round(bact.longevityLv*LIFE_FACTOR);
 		return true;
 	}
 
