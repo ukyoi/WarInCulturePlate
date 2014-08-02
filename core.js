@@ -5,6 +5,7 @@ var PLATE_WIDTH = 64;
 
 var LIFE_FACTOR = 1/5;
 var VARIATE_FACTOR = 1/15;
+var REPRODUCE_FACTOR = 1/40;
 
 
 function Bacteria(newTeamNum, newProlLv, newAggrLv, newVariLv, newLongLv) {
@@ -19,7 +20,7 @@ function Bacteria(newTeamNum, newProlLv, newAggrLv, newVariLv, newLongLv) {
 
 	this.variate = function() {
 		/* "variate" means "tu bian" in Chinese. */
-		/* This function is variating algorithm for an individual. Individuals in competitor lists should variate befor being planted. */
+		/* This function is variating algorithm for an individual. Only individuals in competitor lists should variate just after being created (this function is called by ThePlate.reproduce(). */
 		function newLevel(level) {
 			function randValue() { return (Math.random()-0.5)*2; }
 			var deltaValue = Math.round( randValue() * level*VARIATE_FACTOR + randValue() );
@@ -159,29 +160,42 @@ function ThePlate() {
 	}
 
 
-	this.reproduce = function() {
+	this.reproduce = function(row, col) {
 		/* Note: "reproduce" means "fan zhi" in Chinese. */
 		/* This function is the step of repruduction. */
 
-		for (var i in this.latticeArray) {
-			for (var j in this.latticeArray[i]) {
-				ancient = this.latticeArray[i][j];
-				// TODO:
-			}
+		var ancestor = latticeArray[row][col].bact;
+		// Calculate possibility:
+		if (Math.random() >= ancestor.proliferativeLv * REPRODUCE_FACTOR) {
+			return; // Unlucky. Do nothing.
+		} // else reproduce:
+		// Calculate position:
+		var delta = function(p0, p0max) {
+			var rnd = Math.random();
+			var newP;
+			newP =  (rnd>=2/3) ? (p0+1) : (rnd>=1/3 ? p0 : p0-1 );
+			newP = (newP<0) ? 0 : (newP>p0max ? p0max : newP);
+			return newP;
 		}
+		var newRow = delta(row, this.getHeight());
+		var newCol = delta(col, this.getWidth());
+		offspring = Bacteria(ancestor.teamNum, ancestor.proliferativeLv, ancestor.aggressiveLv, ancestor.variativeLv, ancestor.longevityLv);
+		offspring.variate();
+		this.latticeArray[newRow][newCol].competitor.push(offspring);
+		return; // Succeed.
 	}
 
 	this.nextRound = function() {
 		/* nextRound is a combination of all function that must be loaded in a round.
 		 */
 		//TODO:
-		/*
 		for (var i in latticeArray) {
 			for (var j in latticeArray[i]) {
-				latticeArray[i][j].aging();
+				this.latticeArray[i][j].aging();
+				this.reproduce(i, j);
+				/* Don't call Bacteria.variate() here. It is called by ThePlate.reproduce(). */
 			}
 		}
-		*/
 		return;
 	}
 }
