@@ -62,6 +62,7 @@ function PlateLattice() {
 	}
 	
 	this.variate = function() {
+		/* This function is useless now. Just in case I'll need it in the future. */
 		for (var i in competitor) {
 			competitor[i].variate();
 		}
