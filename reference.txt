@@ -1,0 +1,26 @@
+== Classes ==
+
+Bacteria
+Lattice
+ThePlate
+
+
+
+== Stucture ==
+
+Lattice
+	bact : Bacteria
+	lifeRemaining
+	competitor[] : Bacteria
+
+Bacteria
+		teamNum
+		proliferativeLv
+		aggressiveLv
+		variativeLv
+		longevityLv
+
+ThePlate
+	teamList
+	latticeArray[] : Lattice
+
