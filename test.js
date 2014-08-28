@@ -8,55 +8,68 @@ function showPlate(plate) {
 	/* Show plate in the console. */
 	var width = PLATE_WIDTH;
 	var height = PLATE_HEIGHT;
-	var toOutput = '';
+	var toOut = '\n';
 	for (var i=0; i<height; ++i) {
 		for (var j=0; j<width; ++j) {
 			if (plate.latticeArray[i][j].isEmpty()) {
-				toOutput += "+ ";
+				toOut += "+ ";
 			} else {
-				toOutput += plate.latticeArray[i][j].bact.teamNum;
-				toOutput += " ";
+				toOut += plate.latticeArray[i][j].bact.teamNum;
+				toOut += " ";
 			}
 		}
-		toOutput += "\n";
 	}
 
-	console.log(toOutput);
+	console.log(toOut);
 }
 
-function showBactInfo(bact, onlyShowNum) {
+function showBactInfo(bact, ifPrintOut, ifOnlyNum) {
 	if (bact == undefined) {
 		console.log("Bact is undefined.");
 		return;
 	}
 	var toOut = '';
 	toOut += 'teamNum:\t' + bact.teamNum + '\n';
-	if (onlyShowNum == true) {
-		return;
-	} // else: show other info.
-	toOut += 'prolLv:\t' + bact.proliferativeLv + '\n'
-	toOut += 'aggrLv:\t' + bact.aggressiveLv + '\n';
-	toOut += 'variLv:\t' + bact.variativeLv + '\n';
-	toOut += 'longLv:\t' + bact.longevityLv + '\n';
-	console.log(toOut);
+	if (ifOnlyNum == true) {
+		// Do Nothing.
+	} else {
+		toOut += 'prolLv:\t' + bact.proliferativeLv + '\n'
+		toOut += 'aggrLv:\t' + bact.aggressiveLv + '\n';
+		toOut += 'variLv:\t' + bact.variativeLv + '\n';
+		toOut += 'longLv:\t' + bact.longevityLv + '\n';
+	}
+	 if (ifPrintOut == true) {
+		 console.log(toOut);
+	 } // else:
+	 return toOut;
 }
 
 function showLatticeInfo(plate, row, col)
 {
 	var lattice = plate.latticeArray[row][col];
-	console.log('Bact in the lattice ' + '[' + row + ', ' + col + '] :\t');
-	(lattice.bact==undefined) ? console.log('No bact here.') : showBactInfo(lattice.bact);
-	/*
-	 * TODO: show competitors.
-	console.log('Competitors:\t');
-	console.log(lattice.competitor);
-	*/
+	var toOut = '\n';
+	toOut += 'Bact in the lattice ' + '[' + row + ', ' + col + '] :\n';
+	if (lattice.bact==undefined) {
+		toOut += 'No bact here.\n';
+		console.log(toOut);
+		return;
+	} // else:
+	toOut += showBactInfo(lattice.bact, false, false);
+	
+	toOut += 'lifeRemaining:\t' + lattice.lifeRemaining + '\n';
+	
+	// TODO: Show competitors:
+	toOut += '\n' + 'Competitor(s):\t' + lattice.competitors.length;
+	
+	console.log(toOut);
 }
 
-thePlate = new ThePlate();
+//function showCompetitors();
 
 // For Testing:
 /*
+thePlate = new ThePlate();
+
 showPlate(thePlate);
 
 thePlate.addNewPlayer(10,20,30,40, 2, 1);
@@ -72,3 +85,11 @@ console.log(thePlate.teamList);
 showBactInfo(thePlate.latticeArray[2][1].bact);
 showLatticeInfo(thePlate, 2, 1);
 */
+
+thePlate = new ThePlate();
+thePlate.addNewPlayer(10,20,30,40, 2, 1);
+bactToTest = thePlate.latticeArray[2][1].bact;
+showLatticeInfo(thePlate, 2, 1);
+//console.log(thePlate.latticeArray[2][1].lifeRemaining);
+bactToTest.variate();
+showLatticeInfo(thePlate, 2, 1);
