@@ -4,7 +4,7 @@ var PLATE_HEIGHT = 64;
 var PLATE_WIDTH = 64;
 
 var LIFE_FACTOR = 1/5;
-var VARIATE_FACTOR = 1/15;
+var VARIATE_FACTOR = 1/100;
 var REPRODUCE_FACTOR = 1/40;
 
 
@@ -22,16 +22,9 @@ function Bacteria(newTeamNum, newProlLv, newAggrLv, newVariLv, newLongLv) {
 		/* "variate" means "tu bian" in Chinese. */
 		/* This function is variating algorithm for an individual. Only individuals in competitor lists should variate just after being created (this function is called by ThePlate.reproduce(). */
 		function newLevel(level) {
-			function randValue() { return (Math.random()-0.5)*2; }
-			var deltaValue = Math.round( randValue() * level*VARIATE_FACTOR + randValue() );
-			var result = level + deltaValue;
-			if (result > 100) {
-				return 100;
-			} else if (result < 0) {
-				return 0;
-			} else {
-				return result;
-			}
+			rand = (Math.random()-0.5)*2; // Generate a random number between [-1, 1). Most mutations are harmful!
+			var factor = Math.exp(level*VARIATE_FACTOR*rand);
+			return Math.round(level * factor);
 		}
 		this.proliferativeLv = newLevel(this.proliferativeLv);
 		this.aggressiveLv = newLevel(this.aggressiveLv);
