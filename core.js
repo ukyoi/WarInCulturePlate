@@ -20,7 +20,7 @@ function Bacteria(newTeamNum, newProlLv, newAggrLv, newVariLv, newLongLv) {
 
 	this.variate = function() {
 		/* "variate" means "tu bian" in Chinese. */
-		/* This function is variating algorithm for an individual. Only individuals in competitor lists should variate just after being created (this function is called by ThePlate.reproduce(). */
+		/* This function is variating algorithm for an individual. Only individuals in competitors lists should variate just after being created (this function is called by ThePlate.reproduce(). */
 		function newLevel(level) {
 			rand = (Math.random()-0.5)*2; // Generate a random number between [-1, 1). Most mutations are harmful!
 			var factor = Math.exp(level*VARIATE_FACTOR*rand);
@@ -40,7 +40,7 @@ function PlateLattice() {
 
 	this.bact = null;
 	this.lifeRemaining = null;
-	this.competitor = [];
+	this.competitors = [];
 
 	this.planting = function(bact) {
 		this.bact = bact;
@@ -56,8 +56,8 @@ function PlateLattice() {
 	
 	this.variate = function() {
 		/* This function is useless now. Just in case I'll need it in the future. */
-		for (var i in competitor) {
-			competitor[i].variate();
+		for (var i in competitors) {
+			competitors[i].variate();
 		}
 	}
 	this.aging = function() {
@@ -175,7 +175,7 @@ function ThePlate() {
 		var newCol = delta(col, this.getWidth());
 		offspring = Bacteria(ancestor.teamNum, ancestor.proliferativeLv, ancestor.aggressiveLv, ancestor.variativeLv, ancestor.longevityLv);
 		offspring.variate();
-		this.latticeArray[newRow][newCol].competitor.push(offspring);
+		this.latticeArray[newRow][newCol].competitors.push(offspring);
 		return; // Succeed.
 	}
 
